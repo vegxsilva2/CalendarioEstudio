@@ -31,7 +31,7 @@ public class Main {
 		String comando = "";
 		String comando2 = "";
 		
-		
+		System.out.println("Hola buenas tardes");
 		//Comprobamos si va a ser un inicio de sesion o un registro
 		System.out.println("¿Tiene una cuenta?:[Y/N]");
 		comando = leerComando.next();
