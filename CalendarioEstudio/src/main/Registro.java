@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Registro {
 
@@ -63,7 +65,12 @@ public class Registro {
 		 * Debo controlar que se introduzca al menos un formato de correo
 		 */
 		System.out.println("Introduzca su correo electrónico:\n");
-		user.setCorreoE(leerComando.next());
+		String correo = leerComando.next();
+		while(!esCorreo(correo)) {
+			System.out.println("Introduzca su correo electrónico:\n");
+			correo = leerComando.next();
+		}
+		user.setCorreoE(correo);
 		
 		System.out.println("¿Cuál de los siguientes es su grado? ");
 		//Mostrar listado de grados para que el usuario escoja el suyo
@@ -129,6 +136,29 @@ public class Registro {
 		
 		return res;
 	}
+	
+	/*
+	 * Devuelve true en caso de que la cadena recibida sea una dirección de correo
+	 */
+	private boolean esCorreo(String cadena) {
+		boolean res = false;
+		// Expresión regular para validar direcciones de correo electrónico
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        // Compilar la expresión regular
+        Pattern pattern = Pattern.compile(regex);
+
+        // Crear un objeto Matcher
+        Matcher matcher = pattern.matcher(cadena);
+
+        // Verificar si la cadena introducida coincide con la expresión regular
+        if(matcher.matches()) {
+           res = true;
+        }
+        return res;
+    }
+
+	
 	
 	public void escribirFich(String cadena, String nomFich) {
 		

@@ -1,15 +1,15 @@
 package main;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class Grado {
 	
 	private String nombre;
-	private Set<Asignatura> asignaturas = new TreeSet<>();
+	private List<Asignatura> asignaturas = new ArrayList<>();
 	
-	public Grado(String nombre, Set<Asignatura> asignaturas) {
+	public Grado(String nombre, List<Asignatura> asignaturas) {
 		this.nombre = nombre;
 		this.asignaturas = asignaturas;
 	}
@@ -22,11 +22,11 @@ public class Grado {
 		this.nombre = nombre;
 	}
 
-	public Set<Asignatura> getAsignaturas() {
+	public List<Asignatura> getAsignaturas() {
 		return asignaturas;
 	}
 
-	public void setAsignaturas(Set<Asignatura> asignaturas) {
+	public void setAsignaturas(List<Asignatura> asignaturas) {
 		this.asignaturas = asignaturas;
 	}
 	
