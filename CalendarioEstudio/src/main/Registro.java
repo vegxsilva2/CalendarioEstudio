@@ -21,80 +21,82 @@ public class Registro {
 	
 	
 	/*
-	 * Hashea el nombre y la contraseña que recibe por parámetro
-	 * Busca en la estructura si está registrado el nombre, y si lo está, si la contraseña coincide
-	 * En caso de que lo esté devuelve true
+	 * Hashea el nombre y la contraseï¿½a que recibe por parï¿½metro
+	 * Busca en la estructura si estï¿½ registrado el nombre, y si lo estï¿½, si la contraseï¿½a coincide
+	 * En caso de que lo estï¿½ devuelve true
 	 */
-	public void inicioSesion(String nombre, String contraseña) {
-		boolean res = false;
+	public void inicioSesion(Scanner leerComando) {
+
+		System.out.println("Introduzca su nombre:");
+		String nombre = leerComando.next();
+		System.out.println("Introduzca su contraseï¿½a:");
+		String pass = leerComando.next();
+
+		Usuario user = new Usuario(nombre, null, null, pass);
 		
-		hash(nombre,contraseña);
+		hash(user);
 		
-		//Comprobamos si el inicio de sesión se realiza con éxito
-        res = buscarUsuario(nombre,contraseña);
-		
-		
-		if(res) System.out.println("Inicio de sesión realizado con éxito.");
-		else System.out.println("El nombre de usuario o contraseña no son correctos");
+		//Comprobamos si el inicio de sesiï¿½n se realiza con ï¿½xito y devolvemos la respuesta por pantalla
+        boolean res = buscarUsuario(user.getNombre(),user.getPass());
+
+		if (!res) inicioSesion(leerComando);
+
 	}
 	
 	/*
-	 *Crea un usuario preguntando todos los parámetros para ello.
-	 *Añade el usuario a usuarios 
+	 *Crea un usuario preguntando todos los parï¿½metros para ello.
+	 *Aï¿½ade el usuario a usuarios 
 	 */
 	public void registro(Scanner leerComando) {
 		
 		Usuario user = new Usuario("",null,"","");
 		
 		
-		//Guardo en variables el nombre y la contraseña porque necesito hashearlos antes de guardarlos
+		//Guardo en variables el nombre y la contraseï¿½a porque necesito hashearlos antes de guardarlos
 		System.out.println("Introduzca su nombre:\n");
-		String n = leerComando.next();
+		user.setNombre(leerComando.next());
 		
-		System.out.println("Introduzca su contraseña:\n");
-		String c = leerComando.next();
+		System.out.println("Introduzca su contraseï¿½a:\n");
+		user.setPass(leerComando.next());
 		
 		//hasheo para no almacenar datos sensibles en claro
-		hash(c,n);
-		user.setNombre(n);
-		user.setContraseña(c);
+		hash(user);
 		
-		System.out.println(user.getNombre() + " " + user.getContraseña());
+		System.out.println(user.getNombre() + " " + user.getPass());
 		
 		/*
 		 * Debo controlar que se introduzca al menos un formato de correo
 		 */
-		System.out.println("Introduzca su correo electrónico:\n");
+		System.out.println("Introduzca su correo electrï¿½nico:\n");
 		String correo = leerComando.next();
 		while(!esCorreo(correo)) {
-			System.out.println("Introduzca su correo electrónico:\n");
+			System.out.println("Introduzca su correo electrï¿½nico:\n");
 			correo = leerComando.next();
 		}
 		user.setCorreoE(correo);
 		
-		System.out.println("¿Cuál de los siguientes es su grado? ");
+		System.out.println("ï¿½Cuï¿½l de los siguientes es su grado? ");
 		//Mostrar listado de grados para que el usuario escoja el suyo
 		
 		
 		
-		//Añadimos al usuario
+		//Aï¿½adimos al usuario
 		usuarios.add(user);
 		
 		escribirFich(user.toString(), "Usuarios.txt");
 	}
 	
-	private void hash(String nombre, String contraseña) {
+	private void hash(Usuario user) {
 		
 		try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             
             //Creamos el hash del nombre y lo pasamos a hex
-            byte[] hashNombre = digest.digest(nombre.getBytes());
-            nombre = byteToHex(hashNombre);
-            
-            //Creamos el hash de la contraseña y lo pasamos a hex
-            byte[] hashContra = digest.digest(contraseña.getBytes());
-            contraseña = byteToHex(hashContra);
+            byte[] hashNombre = digest.digest(user.getNombre().getBytes());
+            user.setNombre(byteToHex(hashNombre));
+            //Creamos el hash de la contraseï¿½a y lo pasamos a hex
+            byte[] hashContra = digest.digest(user.getPass().getBytes());
+            user.setPass(byteToHex(hashContra));
             
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -105,9 +107,9 @@ public class Registro {
 		
 		StringBuilder hexString = new StringBuilder();
         for (byte b : bArray) {
-            // Máscara para convertir el byte sin signo a un valor hexadecimal
+            // Mï¿½scara para convertir el byte sin signo a un valor hexadecimal
             String hex = Integer.toHexString(0xff & b);
-            // Añadir un cero adelante si el valor hexadecimal es menor que 16
+            // Aï¿½adir un cero adelante si el valor hexadecimal es menor que 16
             if (hex.length() == 1) {
                 hexString.append('0');
             }
@@ -116,42 +118,42 @@ public class Registro {
         return hexString.toString();
 	}
 	
-	private boolean buscarUsuario(String hashNombre, String hashContraseña) {
-		
-		boolean res = false;
-		
+	private boolean buscarUsuario(String hashNombre, String hashContra) {
+
+			boolean res = false;
 			Iterator<Usuario> it = usuarios.iterator();
 			
 			while(it.hasNext()) {
 				Usuario user = it.next();
 				if(user.getNombre().equals(hashNombre)) {
-					if(user.getContraseña().equals(hashContraseña)) {
+					if(user.getPass().equals(hashContra)) {
 						res = true;
+						System.out.println("El inicio de sesiÃ³n se ha realizado con Ã©xito");
 						break;
 					}
 				}
 			}
 			
-		
-		
-		return res;
-	}
+			System.out.println("El usuario o contraseÃ±a introducidos no son correctos o bien no estÃ¡ registrado.");
+
+        return res;
+    }
 	
 	/*
-	 * Devuelve true en caso de que la cadena recibida sea una dirección de correo
+	 * Devuelve true en caso de que la cadena recibida sea una direcciï¿½n de correo
 	 */
 	private boolean esCorreo(String cadena) {
 		boolean res = false;
-		// Expresión regular para validar direcciones de correo electrónico
+		// Expresiï¿½n regular para validar direcciones de correo electrï¿½nico
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
-        // Compilar la expresión regular
+        // Compilar la expresiï¿½n regular
         Pattern pattern = Pattern.compile(regex);
 
         // Crear un objeto Matcher
         Matcher matcher = pattern.matcher(cadena);
 
-        // Verificar si la cadena introducida coincide con la expresión regular
+        // Verificar si la cadena introducida coincide con la expresiï¿½n regular
         if(matcher.matches()) {
            res = true;
         }

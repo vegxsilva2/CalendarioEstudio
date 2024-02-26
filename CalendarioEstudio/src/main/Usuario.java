@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public class Usuario {
 
-	private String nombre, correoE, contraseña;
+	private String nombre, correoE, pass;
 	private Grado grado;
 	
-	public Usuario(String nombre, Grado grado, String correoE, String contraseña) {
+	public Usuario(String nombre, Grado grado, String correoE, String pass) {
 		this.nombre = nombre;
 		this.grado = grado;
 		this.correoE = correoE;
-		this.contraseña = contraseña;
+		this.pass = pass;
 	}
 
 	public String getNombre() {
@@ -38,12 +38,12 @@ public class Usuario {
 		this.correoE = correoE;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getPass() {
+		return pass;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 
 	

@@ -31,32 +31,27 @@ public class Main {
 		String comando = "";
 		String comando2 = "";
 		
-		System.out.println("Hola buenas tardes");
+		System.out.println("Hola buenas tardes que tal");
 		//Comprobamos si va a ser un inicio de sesion o un registro
-		System.out.println("¿Tiene una cuenta?:[Y/N]");
+		System.out.println("ï¿½Tiene una cuenta?:[Y/N]");
 		comando = leerComando.next();
 		while(!comando.equals("Y") && !comando.equals("N")) {
-			System.out.println("¿Tiene una cuenta?:[Y/N]");
+			System.out.println("ï¿½Tiene una cuenta?:[Y/N]");
 			comando = leerComando.next();
 		}
 		
-		if(comando == "Y") {
-			System.out.println("Introduzca su nombre:");
-			comando = leerComando.next();
-			System.out.println("Introduzca su contraseña:");
-			comando2 = leerComando.next();
-			
-			registro.inicioSesion(comando, comando2);
+		if(comando.equals("Y")) {
+			registro.inicioSesion(leerComando);
 		}else {
 			registro.registro(leerComando);
 			
 		}
 		
-		//Inicia la sesión de estudio, "ponemos el cronómetro"
+		//Inicia la sesiï¿½n de estudio, "ponemos el cronï¿½metro"
 		sesion.inicio(calendarioI, leerComando);
-		//Finalizamos la sesión, "paramos el cronómetro"
+		//Finalizamos la sesiï¿½n, "paramos el cronï¿½metro"
 		sesion.fin(calendarioF,leerComando);
-		//Consultamos al usuario sobre el rendimiento de la sesión
+		//Consultamos al usuario sobre el rendimiento de la sesiï¿½n
 		sesion.puntuacion(valoracion,leerComando);
 		
 		
